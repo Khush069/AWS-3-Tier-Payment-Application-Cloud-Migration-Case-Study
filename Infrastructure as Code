@@ -1,0 +1,65 @@
+Structure Terraform into reusable modules.
+
+terraform/
+│
+├── modules/
+│   ├── vpc/
+│   ├── security-group/
+│   ├── alb/
+│   ├── ec2/
+│   ├── rds/
+│   └── storage/
+│
+├── environments/
+│   ├── dev/
+│   ├── qa/
+│   └── prod/
+│
+└── README.md
+
+Example:
+
+modules/
+    vpc
+       main.tf
+       variables.tf
+       outputs.tf
+
+    ec2
+       main.tf
+       variables.tf
+       outputs.tf
+
+    rds
+       main.tf
+       variables.tf
+       outputs.tf
+13. Terraform Design
+
+Use environment-specific variables.
+
+dev.tfvars
+
+environment = "dev"
+
+app_instance_count = 2
+
+app_instance_type = "t3.large"
+
+db_instance_class = "db.t3.medium"
+
+Production:
+
+prod.tfvars
+
+environment = "prod"
+
+app_instance_count = 6
+
+app_instance_type = "m6i.large"
+
+db_instance_class = "db.r6g.large"
+
+The key point:
+
+Same Terraform modules, different environment-specific configuration.
