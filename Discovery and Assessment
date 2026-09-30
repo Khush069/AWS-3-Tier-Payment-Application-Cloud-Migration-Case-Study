@@ -1,0 +1,140 @@
+The first phase is not building AWS infrastructure.
+
+The first phase is understanding what exists.
+
+Infrastructure discovery
+
+Collect:
+
+VM name
+OS/version
+CPU
+Memory
+Allocated storage
+Used storage
+Disk IOPS
+Network throughput
+CPU utilization
+Memory utilization
+Application role
+Database role
+Environment
+Availability requirements
+
+Example:
+
+VM               OS          CPU    RAM    Role
+----------------------------------------------------------------
+APP01             Windows     8      16GB   Application
+APP02             Windows     8      16GB   Application
+APP03             Windows     8      16GB   Application
+APP04             Windows     8      16GB   Application
+DB01              Linux       16     64GB   PostgreSQL
+DB02              Linux       16     64GB   PostgreSQL
+FILE01            Linux       8      32GB   File Storage
+MON01             Linux       4      16GB   Monitoring
+4. Dependency Mapping
+
+This is an important section for your recruiter because it demonstrates that migration isn't simply "move VM to EC2."
+
+Identify:
+
+Application
+    |
+    +---- DNS
+    |
+    +---- Load Balancer
+    |
+    +---- Database
+    |
+    +---- Shared Storage
+    |
+    +---- Authentication
+    |
+    +---- External APIs
+    |
+    +---- Monitoring
+    |
+    +---- Backup
+    |
+    +---- Network/Firewall
+
+Create a dependency matrix.
+
+Source	Destination	Port	Dependency	Criticality
+App	PostgreSQL	5432	Database	Critical
+App	File Storage	2049/SMB	File access	High
+Users	Load Balancer	443	Application	Critical
+App	External API	443	Payment integration	Critical
+Servers	Monitoring	443	Monitoring	Medium
+5. Utilization Analysis
+
+Collect historical CPU and memory metrics.
+
+Example:
+
+             Average       Peak
+CPU            45%          85%
+Memory         55%          75%
+
+Use this information for AWS sizing rather than blindly mapping:
+
+8 vCPU VM → 8 vCPU EC2
+
+Instead:
+
+Current capacity
+       ↓
+Utilization analysis
+       ↓
+Performance requirements
+       ↓
+AWS instance selection
+       ↓
+Load testing
+       ↓
+Final sizing
+6. Migration Strategy
+
+Use different migration approaches based on workload characteristics.
+
+Application servers
+
+Rehost
+
+VMware VM
+   ↓
+AWS EC2
+
+Reason:
+
+Minimal application changes
+Faster migration
+Lower application transformation risk
+PostgreSQL
+
+Potential approach:
+
+PostgreSQL
+    ↓
+AWS-managed PostgreSQL
+    ↓
+Amazon RDS / Aurora PostgreSQL
+
+Final selection depends on:
+
+Compatibility
+Extensions
+Performance
+HA requirements
+Operational requirements
+Application dependencies
+File storage
+
+Move shared file workloads to an appropriate AWS storage service based on access pattern.
+
+For example:
+
+On-Prem File Storage
+        ↓
+Amazon EFS / S3
