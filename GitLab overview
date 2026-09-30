@@ -1,0 +1,38 @@
+Example pipeline:
+
+Developer
+    |
+    v
+Git Push
+    |
+    v
+GitLab CI
+    |
+    +---- terraform fmt
+    |
+    +---- terraform validate
+    |
+    +---- terraform plan
+    |
+    v
+Manual Approval
+    |
+    v
+terraform apply
+
+Example pipeline stages:
+
+stages:
+  - validate
+  - plan
+  - apply
+
+For production:
+
+terraform plan
+       ↓
+Review
+       ↓
+Approval
+       ↓
+terraform apply
