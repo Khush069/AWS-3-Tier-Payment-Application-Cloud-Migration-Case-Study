@@ -1,0 +1,39 @@
+End-to-end AWS cloud migration case study for a 3-tier payment application, covering on-premises/VMware discovery, dependency assessment, AWS architecture, security, Terraform infrastructure, migration waves, cutover, rollback, and operational readiness. Based on real-world cloud migration experience and sanitized for public sharing.
+
+# Business Scenario
+
+A payment application is currently running in an on-premises VMware environment.
+
+The platform supports 24×7 payment processing and consists of:
+
+Web/application tier
+Database tier
+Shared file storage
+Internal load balancer
+Monitoring
+Network and security controls
+
+The organization wants to migrate the platform to AWS while:
+
+Minimizing application downtime
+Maintaining business continuity
+Meeting defined RTO/RPO
+Improving scalability
+Improving operational visibility
+Standardizing infrastructure through Terraform
+Migration objectives
+Requirement	Target
+Migration approach	Phased migration
+Downtime	Minimal
+RTO	30 minutes
+RPO	5 minutes
+Availability	Multi-AZ
+Infrastructure	AWS
+IaC	Terraform
+CI/CD	GitLab CI/CD
+Monitoring	CloudWatch
+Security	IAM, SG, encryption, secrets
+Database	PostgreSQL
+Application	3-tier
+
+Note: The numbers above are illustrative/sanitized for the public case study.
