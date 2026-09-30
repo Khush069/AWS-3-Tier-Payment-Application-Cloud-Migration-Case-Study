@@ -1,0 +1,60 @@
+Don't migrate everything at once.
+
+Wave 0 — Foundation
+AWS Account
+VPC
+Networking
+IAM
+Security Groups
+Logging
+Monitoring
+Terraform
+Wave 1 — Pilot
+
+Migrate:
+
+1 non-critical application server
+
+Validate:
+
+Connectivity
+Application startup
+DNS
+Monitoring
+Security
+Performance
+Wave 2 — Application
+
+Migrate remaining application servers.
+
+APP01
+APP02
+APP03
+APP04
+...
+Wave 3 — Database
+
+Perform database migration using an appropriate replication/cutover mechanism.
+
+Validate:
+
+Replication lag
+Data consistency
+Application connectivity
+Performance
+Backup
+Recovery
+Wave 4 — Production Cutover
+Final synchronization
+        ↓
+Application freeze
+        ↓
+Database validation
+        ↓
+DNS / traffic switch
+        ↓
+Application validation
+        ↓
+Business validation
+        ↓
+Production monitoring
