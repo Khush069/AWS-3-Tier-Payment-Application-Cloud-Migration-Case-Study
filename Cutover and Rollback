@@ -1,0 +1,222 @@
+Create an actual runbook in:
+
+docs/runbooks/production-cutover.md
+
+Example:
+
+T-24 hours
+    |
+    +-- Validate backups
+    +-- Validate monitoring
+    +-- Validate DNS
+    +-- Validate security rules
+    +-- Confirm stakeholders
+
+T-1 hour
+    |
+    +-- Confirm migration team
+    +-- Confirm rollback decision makers
+    +-- Check replication
+
+T-15 minutes
+    |
+    +-- Application freeze
+    +-- Final synchronization
+
+T+0
+    |
+    +-- Switch traffic
+    +-- Validate application
+    +-- Validate database
+    +-- Validate payment transactions
+
+T+30 minutes
+    |
+    +-- Business validation
+    +-- Monitor errors/latency
+17. Rollback Strategy
+
+This is a very important interview topic.
+
+Define rollback before starting production migration.
+
+Example:
+
+                    Production Cutover
+                           |
+                    Application validation
+                           |
+                 +---------+---------+
+                 |                   |
+               PASS                FAIL
+                 |                   |
+                 v                   v
+            Continue          Start rollback
+                                     |
+                                     v
+                              Redirect traffic
+                                     |
+                                     v
+                              Restore old system
+                                     |
+                                     v
+                              Validate application
+
+Rollback triggers could include:
+
+Critical application errors
+Database inconsistency
+Payment transaction failures
+Unexpected latency
+Connectivity failures
+Data synchronization issues
+
+The exact thresholds should be agreed with application, database, business, and operations teams before the cutover.
+
+18. RTO and RPO
+
+Document these clearly.
+
+RTO
+
+Recovery Time Objective
+
+Maximum acceptable time to restore service after a failure.
+
+Example:
+
+RTO = 30 minutes
+RPO
+
+Recovery Point Objective
+
+Maximum acceptable amount of data loss measured in time.
+
+Example:
+
+RPO = 5 minutes
+
+For the case study:
+
+RTO: 30 minutes
+RPO: 5 minutes
+
+Then explain how the architecture supports those targets.
+
+19. Monitoring
+
+Use CloudWatch for:
+
+EC2
+ |
+ +-- CPU
+ +-- Memory
+ +-- Disk
+ +-- Network
+
+ALB
+ |
+ +-- Request count
+ +-- Latency
+ +-- HTTP errors
+
+RDS
+ |
+ +-- CPU
+ +-- Connections
+ +-- Storage
+ +-- Database metrics
+
+Also document:
+
+CloudTrail
+VPC Flow Logs
+CloudWatch Logs
+CloudWatch Alarms
+20. Operational Readiness
+
+Before declaring migration complete:
+
+Application
+Application health check passed
+Payment transaction tested
+External dependencies tested
+Performance validated
+Database
+Data validation completed
+Replication stopped cleanly
+Backup configured
+Restore tested
+Network
+DNS validated
+Firewall rules validated
+Connectivity validated
+Load balancer health checks passed
+Security
+IAM access validated
+Secrets protected
+Encryption enabled
+Security groups reviewed
+Operations
+Monitoring configured
+Alerts configured
+Runbook created
+Rollback procedure documented
+21. Repository Structure
+
+This is how I would actually publish it:
+
+aws-payment-platform-migration-case-study/
+│
+├── README.md
+│
+├── docs/
+│   │
+│   ├── 01-business-context.md
+│   ├── 02-current-state.md
+│   ├── 03-discovery-assessment.md
+│   ├── 04-dependency-mapping.md
+│   ├── 05-migration-strategy.md
+│   ├── 06-target-architecture.md
+│   ├── 07-security-design.md
+│   ├── 08-cutover-plan.md
+│   ├── 09-rollback-plan.md
+│   ├── 10-operational-readiness.md
+│   │
+│   └── runbooks/
+│       ├── production-cutover.md
+│       ├── rollback.md
+│       ├── application-validation.md
+│       └── database-validation.md
+│
+├── diagrams/
+│   ├── current-state.png
+│   ├── target-aws-architecture.png
+│   ├── network-flow.png
+│   └── migration-flow.png
+│
+├── terraform/
+│   │
+│   ├── modules/
+│   │   ├── vpc/
+│   │   ├── security-group/
+│   │   ├── alb/
+│   │   ├── ec2/
+│   │   ├── rds/
+│   │   └── storage/
+│   │
+│   └── environments/
+│       ├── dev/
+│       ├── qa/
+│       └── prod/
+│
+├── scripts/
+│   ├── pre-migration-validation.ps1
+│   ├── connectivity-test.ps1
+│   └── post-migration-validation.ps1
+│
+├── inventory/
+│   ├── sample-vm-inventory.csv
+│   └── dependency-matrix.csv
+│
+└── .gitignore
