@@ -1,0 +1,153 @@
+VPC
+
+Example:
+
+VPC
+10.20.0.0/16
+
+Public Subnets
+10.20.1.0/24
+10.20.2.0/24
+
+Private App Subnets
+10.20.11.0/24
+10.20.12.0/24
+
+Private DB Subnets
+10.20.21.0/24
+10.20.22.0/24
+Traffic flow
+Client
+  |
+  v
+ALB
+  |
+  v
+App EC2
+  |
+  v
+RDS PostgreSQL
+
+The database should not be directly reachable from the internet.
+
+9. Internet Gateway vs NAT Gateway
+
+Document this in the repository.
+
+Internet Gateway
+
+Provides internet connectivity for resources/subnets that have appropriate public routing.
+
+Public Subnet
+      |
+      v
+Internet Gateway
+      |
+   Internet
+NAT Gateway
+
+Allows private resources to initiate outbound internet connections without exposing them to inbound internet traffic.
+
+Private EC2
+    |
+    v
+NAT Gateway
+    |
+    v
+Internet Gateway
+    |
+ Internet
+
+Example use:
+
+Private EC2
+     |
+     +---- OS updates
+     +---- package downloads
+     +---- external APIs
+10. Security Architecture
+
+This should be one of the strongest sections of the repository.
+
+Security controls
+IAM
+ |
+ +-- Least privilege
+ +-- IAM Roles
+ +-- No long-lived credentials
+
+Network
+ |
+ +-- Private subnets
+ +-- Security Groups
+ +-- Network segmentation
+ +-- Controlled outbound access
+
+Data
+ |
+ +-- Encryption at rest
+ +-- Encryption in transit
+ +-- KMS
+
+Secrets
+ |
+ +-- AWS Secrets Manager
+ +-- No passwords in Terraform code
+
+Monitoring
+ |
+ +-- CloudWatch
+ +-- CloudTrail
+ +-- VPC Flow Logs
+Example security-group rules
+ALB-SG
+  |
+  +--> App-SG : 443
+
+App-SG
+  |
+  +--> DB-SG : 5432
+
+DB-SG
+  |
+  +--> No internet access
+
+This demonstrates least-privilege network access.
+
+11. Zero-Trust Considerations
+
+Document the principle:
+
+Never assume that a workload or user should be trusted simply because it is inside the network.
+
+For example:
+
+User
+ ↓
+Identity validation
+ ↓
+Authentication
+ ↓
+Authorization
+ ↓
+Application
+ ↓
+Database
+
+For administrative access:
+
+Engineer
+   ↓
+SSO / Identity Provider
+   ↓
+AWS IAM Identity Center / IAM Role
+   ↓
+Temporary credentials
+   ↓
+Required AWS resources
+
+Avoid:
+
+Engineer
+   ↓
+Permanent AWS Access Key
