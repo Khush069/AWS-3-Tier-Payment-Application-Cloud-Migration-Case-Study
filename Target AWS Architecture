@@ -1,0 +1,34 @@
+                         Users / Internal Clients
+                                  |
+                                  |
+                             Route 53
+                                  |
+                                  v
+                        +------------------+
+                        | Application LB   |
+                        |      ALB         |
+                        +--------+---------+
+                                 |
+                    +------------+------------+
+                    |                         |
+              Availability Zone A       Availability Zone B
+                    |                         |
+             +------v------+           +------v------+
+             | Private      |           | Private     |
+             | App Subnet   |           | App Subnet  |
+             |              |           |             |
+             | EC2 App      |           | EC2 App     |
+             | Servers      |           | Servers     |
+             +------+-------+           +------+------+
+                    |                         |
+                    +------------+------------+
+                                 |
+                         +-------v-------+
+                         | RDS PostgreSQL|
+                         | Multi-AZ      |
+                         +-------+-------+
+                                 |
+                         +-------v-------+
+                         | Storage       |
+                         | EFS / S3     |
+                         +---------------+
