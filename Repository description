@@ -1,0 +1,1 @@
+End-to-end AWS cloud migration case study for a 3-tier payment application, covering on-premises/VMware discovery, dependency assessment, AWS architecture, security, Terraform infrastructure, migration waves, cutover, rollback, and operational readiness. Based on real-world cloud migration experience and sanitized for public sharing.
