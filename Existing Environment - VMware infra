@@ -1,0 +1,53 @@
+On-Premises Architecture
+                    Internet / Internal Users
+                              |
+                              |
+                    +-------------------+
+                    | Existing Firewall |
+                    +---------+---------+
+                              |
+                              |
+                    +---------v---------+
+                    | Internal Load     |
+                    | Balancer          |
+                    +---------+---------+
+                              |
+              +---------------+---------------+
+              |                               |
+       +------v------+                 +------v------+
+       | App Server 1|                 | App Server 2|
+       | Windows     |                 | Windows     |
+       +-------------+                 +-------------+
+              |                               |
+              +---------------+---------------+
+                              |
+                       +------v------+
+                       | PostgreSQL  |
+                       | Database    |
+                       +------+------+
+                              |
+                       +------v------+
+                       | Shared File |
+                       | Storage     |
+                       +-------------+
+Example inventory
+Application Servers:
+    6 × Windows VMs
+
+Additional Application/Utility:
+    2 × Linux VMs
+
+Database:
+    2 × PostgreSQL servers
+
+Storage:
+    Shared file storage
+
+Network:
+    Internal load balancer
+    Firewall
+    DNS
+    Application-specific ports
+
+Monitoring:
+    Existing enterprise monitoring platform
